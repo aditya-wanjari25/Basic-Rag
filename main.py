@@ -20,5 +20,40 @@ def chunk_text(text, chunk_size, overlap):
 
     return chunks
 
-text = "This is a text about to be chunked"
-print(chunk_text(text,3,1))
+def build_index(chunks):
+    index = []
+    for chunk in chunks:
+        d = dict()
+        d[chunk] = embed_text(chunk)
+        index.append(d)
+    return index
+
+
+def cosine_sim(vecA, vecB):
+    dot_prod = 0
+    for i in range(len(vecA)):
+        dot_prod += vecA[i] * vecB[i]
+    
+    vecA_mag = 0
+    for i in range(len(vecA)):
+        vecA_mag += vecA[i]**2
+    
+    vecA_mag  = vecA_mag**0.5
+    
+    vecB_mag = 0
+    for i in range(len(vecB)):
+        vecB_mag += vecB[i]**2
+    
+    vecB_mag = vecB_mag ** 0.5
+
+    cosine_sim = dot_prod / (vecA_mag * vecB_mag)
+    return cosine_sim
+
+
+
+
+text = "hotsun"
+chunks = chunk_text(text, 3, 0)
+index = build_index(chunks)
+
+print(cosine_sim(index[0]["hot"], index[1]["sun"]))
