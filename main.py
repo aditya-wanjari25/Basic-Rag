@@ -1,6 +1,6 @@
 from openai import OpenAI
 from dotenv import load_dotenv
-
+from sample import TEXT
 load_dotenv()
 
 def embed_text(text):
@@ -49,11 +49,27 @@ def cosine_sim(vecA, vecB):
     cosine_sim = dot_prod / (vecA_mag * vecB_mag)
     return cosine_sim
 
+def retrieve(query, index, top_k):
+    query_embed = embed_text(query)
+    scores = []
+    for i in range(len(index)):
+        d = dict()
+        item = index[i]
+        key, value = list(item.items())[0]
+        d[key] = cosine_sim(query_embed, value)
+        scores.append(d)
+
+    result = sorted(
+    scores,
+    key=lambda x: list(x.values())[0],
+    reverse=True
+    )[:top_k]
+
+    return result
 
 
-
-text = "hotsun"
-chunks = chunk_text(text, 3, 0)
+chunks = chunk_text(TEXT,50,15)
 index = build_index(chunks)
-
-print(cosine_sim(index[0]["hot"], index[1]["sun"]))
+query = "explain scoring system in tennis"
+scores = retrieve(query,index,5)
+print(scores)

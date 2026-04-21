@@ -1,0 +1,5 @@
+
+
+TEXT = """Tennis is a globally popular sport played either as singles (one player per side) or doubles (two players per side) on a rectangular court divided by a net. Players use a racket to hit a felt-covered rubber ball over the net, aiming to land it within the opponent’s court boundaries. Points are scored when the opponent fails to return the ball within the rules. The game follows a unique scoring system—15, 30, 40, and game—with matches typically played in sets. Tennis is played on different surfaces such as grass, clay, and hard courts, each affecting ball speed and playing style.
+Professional tennis is governed by organizations like the ATP (men’s) and WTA (women’s), with major tournaments known as Grand Slams: the Australian Open, French Open, Wimbledon, and US Open. The sport demands a combination of physical endurance, agility, mental toughness, and strategic thinking. Players must master various shots such as serves, forehands, backhands, volleys, and smashes, while also adapting to opponents and match conditions."""
+
