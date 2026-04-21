@@ -2,10 +2,10 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from sample import TEXT
 load_dotenv()
+client = OpenAI()
 
 def embed_text(text):
 
-    client = OpenAI()
     response = client.embeddings.create(
         input = text,
         model = "text-embedding-3-small"
@@ -14,7 +14,6 @@ def embed_text(text):
 
 def chunk_text(text, chunk_size, overlap):
     chunks = []
-    flag = 1
     for i in range(0, len(text), chunk_size - overlap):
         chunks.append(text[i: i+chunk_size])
 
@@ -67,9 +66,26 @@ def retrieve(query, index, top_k):
 
     return result
 
+def invoke_llm(query, context):
+    PROMPT = f""" you are a helpful assistant. Answer questions based only based on context provided. 
+    If you cannot find answer in context, say 'I dont know man'. 
 
-chunks = chunk_text(TEXT,50,15)
-index = build_index(chunks)
-query = "explain scoring system in tennis"
-scores = retrieve(query,index,5)
-print(scores)
+    question = {query};
+    context = {context}
+     """
+    
+    response = client.responses.create(
+        model = "gpt-4o-mini",
+        input = PROMPT
+    )
+    return response.output_text
+
+def generate(query):
+    chunks = chunk_text(TEXT,50,15)
+    index = build_index(chunks)
+    scores = retrieve(query,index,5)
+    print(invoke_llm(query, scores))
+    print(scores)
+
+query = "name surfaces that tennis is played on?"
+generate(query)
